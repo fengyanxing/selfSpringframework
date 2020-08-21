@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="selfconfig:war">
-    <output-path>$PROJECT_DIR$/../selfconfig/target</output-path>
-    <root id="archive" name="selfconfig.war">
-      <element id="artifact" artifact-name="selfconfig:war exploded" />
-    </root>
-  </artifact>
-</component>

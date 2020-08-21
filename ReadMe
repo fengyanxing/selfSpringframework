@@ -1,1 +1,29 @@
 springframework作为一个优秀的框架，其设计思想值得我们不断地研究与学习，程序设计遵循的七大原则再通过优秀的设计框架中进一步加深理解
+
+#### 项目环境
+windows7+IDEA+maven3.9+jdk1.8+servlet-api
+项目的说明，是某个培训机构的一个课程，自己对spring的原理感兴趣进行了相关的学习
+
+#### 项目目录介绍
+selfconfig
+    src
+      main
+        java
+            com.itxing.testdemo  用于测试自己的框架程序
+            com.itxing.myspring  框架的核心组件
+        resources  配置文件相关文件，文件中配置的有扫描的包以及模板页位置
+            layout  模板页的相关配置
+        webapp 文本模块的文件
+    target 编译后的文件位置
+
+#### 项目中的类
+IOC、DI、spring上下文
+六个注解：@SelfAutowired、@SelfController、@SelfMapping、@SelfRequestMapping、@SelfRequestParam、@SelfService
+Bean涉及的几个配置类：SelfBeanDefinition(保存配置元信息)、SelfBeanDefinitionReader(读取配置文件)、
+                    SelfBeanWapper(保存原实例对象的引用)、SelfApplicationContext(spring主入口)
+MVC中有九大组件，对其中的业务部分实现:
+    HandlerMapping：用来保存URL和Method的关系的组件
+    HandlerAdapter：在运行阶段动态匹配参数的组件
+    ModelAndView：用来存储方法调用之后的参数和返回值
+    ViewResolver：根据ModelAndView的信息决定读取对应模板页面，并且调用模板引擎解析
+    View：完成渲染，编程一个字符串(html)，调用response.getWrite().write()

@@ -6,4 +6,5 @@ package com.itxing.testdemo.service;
  */
 public interface MyQueryService {
     String query(String name);
+    String query2(String name);
 }

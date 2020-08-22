@@ -3,10 +3,12 @@ package com.itxing.myspring.context;
 import com.itxing.myspring.annotation.SelfAutowired;
 import com.itxing.myspring.annotation.SelfController;
 import com.itxing.myspring.annotation.SelfService;
+import com.itxing.myspring.aop.SelfJdkDynamaticAopProxy;
+import com.itxing.myspring.aop.config.SelfAopConfig;
+import com.itxing.myspring.aop.support.SelfAdviceSupport;
 import com.itxing.myspring.beans.SelfBeanWrapper;
 import com.itxing.myspring.beans.config.SelfBeanDefinition;
 import com.itxing.myspring.beans.support.SelfBeanDefinitionReader;
-import org.omg.PortableInterceptor.INACTIVE;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -135,12 +137,37 @@ public class SelfApplicationContext {
         try {
             Class<?> clazz = Class.forName(className);
             instance = clazz.newInstance();
+
+            //加入aop框架的程序
+            //读取配置文件，建立通知和目标类之间的关系
+            SelfAdviceSupport config = instantionAopConfig(beanDefinition);
+            config.setTargetClass(clazz);
+            config.setTarget(instance);
+            //判断是否需要代理类
+            if(config.pointCutMatch()){
+                instance = new SelfJdkDynamaticAopProxy(config).getProxy();
+            }
+
             //spring中的容器很多，如果用户设置单例的bean
             factoryBeanObjectCache.put(className,instance);
         }catch (Exception ex){
             ex.printStackTrace();
         }
         return instance;
+    }
+
+
+    //初始化时建立对应管理的方法
+    //获取配置文件中所有的sop相关的配置
+    private SelfAdviceSupport instantionAopConfig(SelfBeanDefinition beanDefinition) {
+        SelfAopConfig selfAopConfig = new SelfAopConfig();
+        selfAopConfig.setPointCut(this.reader.getConfig().getProperty("pointCut"));
+        selfAopConfig.setAspectClass(this.reader.getConfig().getProperty("aspectClass"));
+        selfAopConfig.setAspectBefore(this.reader.getConfig().getProperty("aspectBefore"));
+        selfAopConfig.setAspectAfter(this.reader.getConfig().getProperty("aspectAfter"));
+        selfAopConfig.setAspectAfterThrow(this.reader.getConfig().getProperty("aspectAfterThrow"));
+        selfAopConfig.setAspectAfterThrowingName(this.reader.getConfig().getProperty("aspectAfterThrowingName"));
+        return new SelfAdviceSupport(selfAopConfig);
     }
 
     public int getBeanDefinitionCount() {

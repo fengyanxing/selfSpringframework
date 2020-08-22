@@ -19,9 +19,21 @@ import java.util.Map;
 public class PageAction {
     @SelfAutowired
     MyQueryService queryService;
+
+
     @SelfRequestMapping("/first.html")
     public SelfModelAndView query(@SelfRequestParam("name") String name){
         String query = queryService.query(name);
+        Map<String,Object> model = new HashMap<>();
+        model.put("name",name);
+        model.put("data",query);
+        model.put("token","123456");
+        return  new SelfModelAndView("first.html",model);
+    }
+
+    @SelfRequestMapping("/aop")
+    public SelfModelAndView aopquery(@SelfRequestParam("name") String name){
+        String query = queryService.query2(name);
         Map<String,Object> model = new HashMap<>();
         model.put("name",name);
         model.put("data",query);

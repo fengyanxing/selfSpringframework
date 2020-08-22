@@ -8,7 +8,7 @@
 
   <servlet>
     <servlet-name>selfServlet</servlet-name>
-    <servlet-class>com.itxing.myspring.webmvc.servlet.SelfDispatcherServlet2</servlet-class>
+    <servlet-class>com.itxing.myspring.webmvc.servlet.SelfDispatcherServlet3</servlet-class>
     <init-param>
       <param-name>contentConfigLocation</param-name>
       <param-value>classpath:application.properties</param-value>

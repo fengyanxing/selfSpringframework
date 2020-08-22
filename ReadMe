@@ -27,3 +27,58 @@ MVC中有九大组件，对其中的业务部分实现:
     ModelAndView：用来存储方法调用之后的参数和返回值
     ViewResolver：根据ModelAndView的信息决定读取对应模板页面，并且调用模板引擎解析
     View：完成渲染，编程一个字符串(html)，调用response.getWrite().write()
+
+总结：
+IOC：ApplicationContext：spring应用的上下文环境
+    BeanDefinitionReader：配置文件读取工具类
+    BeanDefinition   bean的元信息
+    BeanWrapper   bean的包装
+
+AOP：
+    入口方法getBean()
+        initantiateBean()
+    Advice通知，将非功能性的代码进行拆分
+    涉及到的类：ApplicationContext
+            AdvisedSupport:通知工具类
+                完成配置文件的解析
+                将Advice和目标类的方法建立关系
+            AopConfig：调用方法时，判断方法名称呢过是否符合切面规则，如果符合就要触发通知
+            Advice：aspect实例  method回调
+            JdkDynamaticAopProxy：生成一个全新的类，字节码重组，用代码生成代码，然后，在内存中编译、加载、实例化
+
+    步骤：aop所做的事情有：事务管理、日志管理、权限拦截
+    对于业务逻辑的代码进行相关的监视，在运行阶段，将相关的非业务代码织入到功能业务中，使用动态代理的方式
+
+DI：入口方法getBean() 获取bean的时候通过扫描将bean注入
+             populateBean()
+
+MVC：
+    DisPatcherServlet：前端控制器
+    HandlerMappering ：处理器映射器，获取执行方法
+    HandlerAdapter  处理器适配器，获取到执行的适配方法
+    ModelAndView
+    View
+
+项目的总体流程：
+web.xml
+DispatcherServlet
+ApplicationContext
+BeanDefinitionReader
+BeanDefinition
+BeanWrapper
+
+AdviseSupport
+AopConfig
+Advice
+-----------------------初始化
+HandlerMappering
+HandlerAdapter          调用controller
+
+
+JdkDynamaticAopProxy      调用service
+
+
+ModelAndView
+ViewResolver
+View                      返回页面
+
